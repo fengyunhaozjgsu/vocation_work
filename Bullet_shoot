@@ -1,0 +1,38 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class hitbreak : MonoBehaviour
+{
+    public GameObject Break;
+    public GameObject bullet;
+    // Start is called before the first frame update
+    void Start()
+    {
+        for(int i=0;i<8;i++)
+        {
+            Vector3 ve = new Vector3(Random.Range(-10, 2), 0.5f, Random.Range(-12, 0));
+            GameObject.Instantiate(Break, ve, Quaternion.identity);
+        }
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Ray ray;
+        RaycastHit hit;
+        if(Input.GetMouseButtonDown(0))
+        {
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if(Physics.Raycast(ray,out hit))
+            {
+                //实例化子弹
+               GameObject Bt= GameObject.Instantiate(bullet, transform.position, Quaternion.identity);
+                //找出一个方向
+                Vector3 dis = hit.point - transform.position;
+                Bt.GetComponent<Rigidbody>().AddForce(dis*300);
+            }
+        }
+    }
+}
